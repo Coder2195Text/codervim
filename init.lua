@@ -422,9 +422,9 @@ local config = {
                         cmp.select_next_item({
                             behavior = cmp.SelectBehavior.Insert
                         })
-                    elseif luasnip.expandable() then
+                    elseif (not luasnip == nil) and luasnip.expandable() then
                         luasnip.expand()
-                    elseif has_words_before() then
+                    elseif (not has_words_before == nil) and has_words_before() then
                         cmp.complete()
                     else
                         fallback()
