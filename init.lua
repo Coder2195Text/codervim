@@ -65,7 +65,7 @@ local config = {
     -- end,
 
     -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
-    diagnostics = {virtual_text = true, underline = true},
+    diagnostics = { virtual_text = true, underline = true },
     -- Extend LSP configuration
     lsp = {
         -- enable servers that you already have installed without mason
@@ -126,21 +126,6 @@ local config = {
             --     },
             --   },
             -- },
-            rust_analyzer = {
-                settings = {
-                    ['rust-analyzer'] = {
-                        checkOnSave = {
-                            allFeatures = true,
-                            overrideCommand = {
-                                'cargo', 'clippy', '--workspace',
-                                '--message-format=json', '--all-targets',
-                                '--all-features'
-                            }
-                        }
-                    }
-                }
-
-            }
         }
     },
     -- Mapping data with "desc" stored directly by vim.keymap.set().
@@ -151,51 +136,68 @@ local config = {
     mappings = {
         -- first key is the mode,
         i = {
+            ["<F7>"] = { "<Esc><cmd>ToggleTerm size=10 direction=horizontal<cr>" },
             ["<F8>"] = {
                 "<Esc><cmd>:AerialToggle<cr>",
                 desc = "Toggle Symbols Outline"
             },
-            ["<S-Tab>"] = {"<Esc><cmd>bnext<cr>", desc = "Next Buffer"},
-            ["<C-a>"] = {"<Esc>ggVGi", desc = "Select All"},
-            ["<C-s>"] = {"<Esc><cmd>w!<cr>", desc = "Force write"}
+            ["<S-Tab>"] = { "<Esc><cmd>bnext<cr>", desc = "Next Buffer" },
+            ["<C-a>"] = { "<Esc>ggVGi", desc = "Select All" },
+            ["<C-s>"] = { "<Esc><cmd>w!<cr>", desc = "Force write" }
         },
         n = {
+            ["<F7>"] = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>" },
             ["<F8>"] = {
                 "<cmd>:AerialToggle<cr>",
                 desc = "Toggle Symbols Outline"
+            },
+            -- open config file
+            ["<leader>v"] = { name = "CoderVim" },
+            ["<leader>vc"] = {
+                "<cmd>:e /home/coder2195/.config/nvim/lua/user/init.lua<cr>",
+                desc = "Open CoderVim Config"
             },
             ["<leader>s"] = {
                 "<cmd>:AerialToggle<cr>",
                 desc = "Toggle Symbols Outline"
             },
-            ["<S-Tab>"] = {"<Esc><cmd>bnext<cr>", desc = "Next Buffer"},
-            ["<C-a>"] = {"ggVG", desc = "Select All"},
+            ["<S-Tab>"] = { "<Esc><cmd>bnext<cr>", desc = "Next Buffer" },
+            ["<C-a>"] = { "ggVG", desc = "Select All" },
             -- second key is the lefthand side of the map
             -- mappings seen under group name "Buffer"
-            ["<leader>bb"] = {"<cmd>tabnew<cr>", desc = "New tab"},
+            ["<leader>bb"] = { "<cmd>tabnew<cr>", desc = "New tab" },
             ["<leader>bc"] = {
                 "<cmd>BufferLinePickClose<cr>",
                 desc = "Pick to close"
             },
-            ["<leader>bj"] = {"<cmd>BufferLinePick<cr>", desc = "Pick to jump"},
+            ["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick to jump" },
             ["<leader>bt"] = {
                 "<cmd>BufferLineSortByTabs<cr>",
                 desc = "Sort by tabs"
             },
             -- tables with the `name` key will be registered with which-key if it's installed
             -- this is useful for naming menus
-            ["<leader>b"] = {name = "Buffers"}
+            ["<leader>b"] = { name = "Buffers" },
+            ["<leader>T"] = { name = "Telescope" },
+            ["<leader>Tc"] = {
+                "<cmd>Telescope colorscheme<cr>",
+                desc = "Set colorscheme"
+            },
+            ["<leader>Tp"] = {
+                "<cmd>Telescope projects<cr>",
+                desc = "Open project"
+            }
             -- quick save
             -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
         },
         t = {
             -- setting a mapping to false will disable it
-            -- ["<esc>"] = false,
+            ["<Esc>"] = { "<C-\\><C-n>", desc = "Terminal Escape" }
         }
     },
     -- Configure require("lazy").setup() options
     lazy = {
-        defaults = {lazy = true},
+        defaults = { lazy = true },
         performance = {
             rtp = {
                 -- customize default disabled vim plugins
@@ -291,30 +293,44 @@ local config = {
                     "░ ░          ░ ░     ░       ░  ░   ░           ░   ░         ░   ",
                     "░                  ░                           ░                  "
                 }
+                local button = require("core.utils").alpha_button
+                -- add a button to update plugins
+
+                opts.section.buttons.val = {
+                    button("LDR n", "  New File  "),
+                    button("LDR f f", "  Find File  "),
+                    button("LDR f o", "  Recents  "),
+                    button("LDR T p", "  Projects  "),
+                    button("LDR v c", "  Edit Config  "),
+                    button("LDR S l", "  Last Session  "),
+                    button("LDR S l", "  Update  "),
+
+                    button("LDR q", "  Quit Neovim")
+                }
                 return opts
             end
         }, {
-            "jose-elias-alvarez/null-ls.nvim",
-            opts = function(_, config)
-                -- config variable is the default configuration table for the setup function call
-                -- local null_ls = require "null-ls"
+        "jose-elias-alvarez/null-ls.nvim",
+        opts = function(_, config)
+            -- config variable is the default configuration table for the setup function call
+            -- local null_ls = require "null-ls"
 
-                -- Check supported formatters and linters
-                -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
-                -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
-                config.sources = {
-                    -- Set a formatter
-                    -- null_ls.builtins.formatting.stylua,
-                    -- null_ls.builtins.formatting.prettier,
-                }
-                return config -- return final config table
-            end
-        }, {
-            "nvim-treesitter/nvim-treesitter",
-            opts = {
-                -- ensure_installed = { "lua" },
+            -- Check supported formatters and linters
+            -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
+            -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
+            config.sources = {
+                -- Set a formatter
+                -- null_ls.builtins.formatting.stylua,
+                -- null_ls.builtins.formatting.prettier,
             }
-        }, -- use mason-lspconfig to configure LSP installations
+            return config -- return final config table
+        end
+    }, {
+        "nvim-treesitter/nvim-treesitter",
+        opts = {
+            -- ensure_installed = { "lua" },
+        }
+    }, -- use mason-lspconfig to configure LSP installations
         {
             "williamboman/mason-lspconfig.nvim",
             -- overrides `require("mason-lspconfig").setup(...)`
@@ -330,83 +346,83 @@ local config = {
                 -- ensure_installed = { "prettier", "stylua" },
             }
         }, {
-            "jay-babu/mason-nvim-dap.nvim",
-            -- overrides `require("mason-nvim-dap").setup(...)`
-            opts = {
-                -- ensure_installed = { "python" },
-            }
-        }, {
-            "wakatime/vim-wakatime",
-            init = function()
-                table.insert(astronvim.file_plugins, "vim-wakatime")
-            end
-        }, {"xiyaowong/nvim-transparent", opts = {}}, {
-            "folke/tokyonight.nvim",
-            opts = {},
-            config = function()
-                require("transparent").setup({
-                    enable = true, -- boolean: enable transparent
-                    extra_groups = { -- table/string: additional groups that should be cleared
-                        -- In particular, when you set it to 'all', that means all available groups
+        "jay-babu/mason-nvim-dap.nvim",
+        -- overrides `require("mason-nvim-dap").setup(...)`
+        opts = {
+            -- ensure_installed = { "python" },
+        }
+    }, {
+        "wakatime/vim-wakatime",
+        init = function()
+            table.insert(astronvim.file_plugins, "vim-wakatime")
+        end
+    }, { "xiyaowong/nvim-transparent", opts = {} }, {
+        "folke/tokyonight.nvim",
+        opts = {},
+        config = function()
+            require("transparent").setup({
+                enable = true, -- boolean: enable transparent
+                extra_groups = { -- table/string: additional groups that should be cleared
+                    -- In particular, when you set it to 'all', that means all available groups
 
-                        -- example of akinsho/nvim-bufferline.lua
-                        "BufferLineTabClose", "BufferlineBufferSelected",
-                        "BufferLineFill", "BufferLineBackground",
-                        "BufferLineSeparator", "BufferLineIndicatorSelected"
-                    },
-                    exclude = {} -- table: groups you don't want to clear
-                })
-            end
-        }, {
-            "gelguy/wilder.nvim",
-            opts = {},
-            config = function()
-                -- config goes here
-                local wilder = require('wilder')
-                wilder.setup({modes = {':', '/', '?'}})
-            end,
-            lazy = false
-        }, {"roxma/nvim-yarp", opts = {}},
-        {"roxma/vim-hug-neovim-rpc", opts = {}},
-        {"andweeb/presence.nvim", opts = {}, event = "VeryLazy"}, {
-            "zbirenbaum/copilot.lua",
-            cmd = "Copilot",
-            event = "InsertEnter",
-            config = function()
-                require("copilot").setup({
-                    panel = {
-                        auto_refresh = false,
-                        keymap = {
-                            accept = "<CR>",
-                            jump_prev = "[[",
-                            jump_next = "]]",
-                            refresh = "gr",
-                            open = "<M-CR>"
-                        }
-                    },
-                    suggestion = {
-                        auto_trigger = true,
-                        keymap = {
-                            accept = "<M-l>",
-                            prev = "<M-[>",
-                            next = "<M-]>",
-                            dismiss = "<C-]>"
-                        }
+                    -- example of akinsho/nvim-bufferline.lua
+                    "BufferLineTabClose", "BufferlineBufferSelected",
+                    "BufferLineFill", "BufferLineBackground",
+                    "BufferLineSeparator", "BufferLineIndicatorSelected"
+                },
+                exclude = {} -- table: groups you don't want to clear
+            })
+        end
+    }, {
+        "gelguy/wilder.nvim",
+        opts = {},
+        config = function()
+            -- config goes here
+            local wilder = require('wilder')
+            wilder.setup({ modes = { ':', '/', '?' } })
+        end,
+        lazy = false
+    }, { "roxma/nvim-yarp",         opts = {} },
+        { "roxma/vim-hug-neovim-rpc",   opts = {} },
+        { "andweeb/presence.nvim",      opts = {}, event = "VeryLazy" }, {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = "InsertEnter",
+        config = function()
+            require("copilot").setup({
+                panel = {
+                    auto_refresh = false,
+                    keymap = {
+                        accept = "<CR>",
+                        jump_prev = "[[",
+                        jump_next = "]]",
+                        refresh = "gr",
+                        open = "<M-CR>"
                     }
-                })
-            end
-        }, {
-            "nvim-neo-tree/neo-tree.nvim",
-            opts = {
-                filesystem = {
-                    filtered_items = {
-                        visible = true, -- This is what you want: If you set this to `true`, all "hide" just mean "dimmed out"
-                        hide_dotfiles = false,
-                        hide_gitignored = true
+                },
+                suggestion = {
+                    auto_trigger = true,
+                    keymap = {
+                        accept = "<M-l>",
+                        prev = "<M-[>",
+                        next = "<M-]>",
+                        dismiss = "<C-]>"
                     }
                 }
+            })
+        end
+    }, {
+        "nvim-neo-tree/neo-tree.nvim",
+        opts = {
+            filesystem = {
+                filtered_items = {
+                    visible = true, -- This is what you want: If you set this to `true`, all "hide" just mean "dimmed out"
+                    hide_dotfiles = false,
+                    hide_gitignored = true
+                }
             }
-        }, {"rcarriga/nvim-notify", opts = {background_colour = "#1f2335"}},
+        }
+    }, { "rcarriga/nvim-notify", opts = { background_colour = "#1f2335" } },
         { -- override nvim-cmp plugin
             "hrsh7th/nvim-cmp",
             -- override the options table that is used in the `require("cmp").setup()` call
@@ -429,42 +445,100 @@ local config = {
                     else
                         fallback()
                     end
-                end, {"i", "s"})
+                end, { "i", "s" })
 
                 -- return the new table to be used
                 return opts
             end
         }, {
-            "rebelot/heirline.nvim",
-            opts = function(_, opts)
-                local status = require("core.utils.status")
-                opts.statusline = {
-                    -- statusline
-                    hl = {fg = "fg", bg = "bg"},
-                    status.component.mode {
-                        mode_text = {padding = {left = 1, right = 1}}
-                    }, -- add the mode text
-                    status.component.git_branch(),
-                    status.component.file_info {
-                        filetype = {},
-                        filename = false,
-                        file_modified = false
-                    },
-                    status.component.git_diff(),
-                    status.component.diagnostics(),
-                    status.component.fill(),
-                    status.component.cmd_info(),
-                    status.component.fill(),
-                    status.component.lsp(),
-                    status.component.treesitter(),
-                    status.component.nav()
-                    -- remove the 2nd mode indicator on the right
-                }
+        "rebelot/heirline.nvim",
+        opts = function(_, opts)
+            local status = require("core.utils.status")
+            opts.statusline = {
+                -- statusline
+                hl = { fg = "fg", bg = "bg" },
+                status.component.mode {
+                    mode_text = { padding = { left = 1, right = 1 } }
+                }, -- add the mode text
+                status.component.git_branch(),
+                status.component.file_info {
+                    filetype = {},
+                    filename = false,
+                    file_modified = false
+                },
+                status.component.git_diff(),
+                status.component.diagnostics(),
+                status.component.fill(),
+                status.component.cmd_info(),
+                status.component.fill(),
+                status.component.lsp(),
+                status.component.treesitter(),
+                status.component.nav()
+                -- remove the 2nd mode indicator on the right
+            }
 
-                -- return the final configuration table
-                return opts
-            end
-        }
+            -- return the final configuration table
+            return opts
+        end
+    }, {
+        "ahmedkhalf/project.nvim",
+        config = function()
+            require("project_nvim").setup {}
+            require('telescope').load_extension('projects')
+        end,
+        event = "VeryLazy",
+        dependencies = { "nvim-telescope/telescope.nvim" }
+    }, { "seandewar/nvimesweeper", event = "VeryLazy" },
+        { "stsewd/spotify.nvim",    event = "VeryLazy" }, {
+        "simrat39/rust-tools.nvim",
+        config = function()
+            local rt = require("rust-tools")
+            local extension_path = vim.env.HOME ..
+                '/.vscode/extensions/vadimcn.vscode-lldb-1.8.1/'
+            local codelldb_path = extension_path .. 'adapter/codelldb'
+            local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
+            rt.setup({
+                server = {
+                    settings = {
+                        ['rust-analyzer'] = {
+                            checkOnSave = {
+                                allFeatures = true,
+                                overrideCommand = {
+                                    'cargo', 'clippy', '--workspace',
+                                    '--message-format=json',
+                                    '--all-targets', '--all-features'
+                                }
+                            }
+                        }
+                    },
+                    on_attach = function(_, bufnr)
+                        -- Hover actions
+                        vim.keymap.set("n", "<C-space>",
+                            rt.hover_actions.hover_actions,
+                            { buffer = bufnr })
+                        -- Code action groups
+                    end
+                },
+                tools = {
+                    autoSetHints = true,
+                    runnables = { use_telescope = true },
+                    inlay_hints = {
+                        show_parameter_hints = true,
+                        parameter_hints_prefix = "<- ",
+                        other_hints_prefix = "=> "
+                    },
+                    hover_actions = { auto_focus = true }
+                },
+                dap = {
+                    adapter = require('rust-tools.dap').get_codelldb_adapter(
+                        codelldb_path, liblldb_path)
+                }
+            })
+        end,
+        event = "VeryLazy",
+        dependencies = { "neovim/nvim-lspconfig" }
+    }
+
     },
     -- Customize Heirline options
     heirline = {
@@ -523,6 +597,7 @@ local config = {
             \ 'border': 'rounded',
             \ })))
             call wilder#setup({'modes': [':', '/', '?']})
+
             ]]
         end)
     end
