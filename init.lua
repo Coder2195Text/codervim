@@ -608,6 +608,16 @@ local config = {
         end,
         event = "VeryLazy",
         dependencies = { "nvim-telescope/telescope.nvim" }
+    }, {
+        "nvim-telescope/telescope.nvim",
+        opts = {
+            defaults = {
+                file_ignore_patterns = {
+                    "node_modules", ".git", "target", "dist", ".godot",
+                    ".cargo", "yarn.lock", "Cargo.lock", ".next"
+                }
+            }
+        }
     }, { "seandewar/nvimesweeper", event = "VeryLazy" }, {
         "simrat39/rust-tools.nvim",
         config = function()
@@ -680,9 +690,6 @@ local config = {
             local utils = require("astronvim.utils")
             local comment_fg = utils.get_hlgroup("Comment").fg
             hl.git_branch_fg = comment_fg
-            hl.git_added = comment_fg
-            hl.git_changed = comment_fg
-            hl.git_removed = comment_fg
             hl.blank_bg = utils.get_hlgroup("Folded").fg
             hl.file_info_bg = utils.get_hlgroup("Visual").bg
             hl.nav_icon_bg = utils.get_hlgroup("String").fg
