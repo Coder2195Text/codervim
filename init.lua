@@ -8,15 +8,15 @@ local config = {
     icons = { VimIcon = "", ScrollText = "" },
     -- Configure AstroNvim updates
     updater = {
-        remote = "origin", -- remote to use
-        channel = "stable", -- "stable" or "nightly"
-        version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
-        branch = "main", -- branch name (NIGHTLY ONLY)
-        commit = nil, -- commit hash (NIGHTLY ONLY)
-        pin_plugins = nil, -- nil, true, false (nil will pin plugins on stable only)
-        skip_prompts = false, -- skip prompts about breaking changes
+        remote = "origin",     -- remote to use
+        channel = "stable",    -- "stable" or "nightly"
+        version = "latest",    -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
+        branch = "main",       -- branch name (NIGHTLY ONLY)
+        commit = nil,          -- commit hash (NIGHTLY ONLY)
+        pin_plugins = nil,     -- nil, true, false (nil will pin plugins on stable only)
+        skip_prompts = false,  -- skip prompts about breaking changes
         show_changelog = true, -- show the changelog after performing an update
-        auto_quit = false -- automatically quit the current session after a successful update
+        auto_quit = false      -- automatically quit the current session after a successful update
         -- remotes = { -- easily add new remotes to track
         --   ["remote_name"] = "https://remote_url.come/repo.git", -- full remote url
         --   ["remote2"] = "github_user/repo", -- GitHub user/repo shortcut,
@@ -39,20 +39,20 @@ local config = {
         opt = {
             -- set to true or false etc.
             relativenumber = true, -- sets vim.opt.relativenumber
-            number = true, -- sets vim.opt.number
-            spell = false, -- sets vim.opt.spell
-            signcolumn = "auto", -- sets vim.opt.signcolumn to auto
-            wrap = false -- sets vim.opt.wrap
+            number = true,         -- sets vim.opt.number
+            spell = false,         -- sets vim.opt.spell
+            signcolumn = "auto",   -- sets vim.opt.signcolumn to auto
+            wrap = false           -- sets vim.opt.wrap
         },
         g = {
-            mapleader = " ", -- sets vim.g.mapleader
-            autoformat_enabled = true, -- enable or disable auto formatting at start (lsp.formatting.format_on_save must be enabled)
-            cmp_enabled = true, -- enable completion at start
-            autopairs_enabled = true, -- enable autopairs at start
-            diagnostics_enabled = true, -- enable diagnostics at start
+            mapleader = " ",                   -- sets vim.g.mapleader
+            autoformat_enabled = true,         -- enable or disable auto formatting at start (lsp.formatting.format_on_save must be enabled)
+            cmp_enabled = true,                -- enable completion at start
+            autopairs_enabled = true,          -- enable autopairs at start
+            diagnostics_enabled = true,        -- enable diagnostics at start
             status_diagnostics_enabled = true, -- enable diagnostics in statusline
-            icons_enabled = true, -- disable icons in the UI (disable if no nerd font is available, requires :PackerSync after changing)
-            ui_notifications_enabled = true -- disable notifications when toggling UI elements
+            icons_enabled = true,              -- disable icons in the UI (disable if no nerd font is available, requires :PackerSync after changing)
+            ui_notifications_enabled = true    -- disable notifications when toggling UI elements
         }
     },
     -- If you need more control, you can use the function()...end notation
@@ -76,7 +76,7 @@ local config = {
         formatting = {
             -- control auto formatting on save
             format_on_save = {
-                enabled = true, -- enable or disable format on save globally
+                enabled = true,     -- enable or disable format on save globally
                 allow_filetypes = { -- enable format on save for specified filetypes only
                     -- "go",
                 },
@@ -137,63 +137,67 @@ local config = {
     mappings = {
         -- first key is the mode,
         i = {
-            ["<F7>"] = { "<Esc><cmd>ToggleTerm size=10 direction=horizontal<cr>" },
-            ["<F8>"] = {
+                ["<F7>"] = { "<Esc><cmd>ToggleTerm size=10 direction=horizontal<cr>" },
+                ["<F8>"] = {
                 "<Esc><cmd>:AerialToggle<cr>",
                 desc = "Toggle Symbols Outline"
             },
-            ["<S-Tab>"] = { "<Esc><cmd>bnext<cr>", desc = "Next Buffer" },
-            ["<C-a>"] = { "<Esc>ggVGi", desc = "Select All" },
-            ["<C-s>"] = { "<Esc><cmd>w!<cr>", desc = "Force write" }
+                ["<S-Tab>"] = { "<Esc><cmd>bnext<cr>", desc = "Next Buffer" },
+                ["<C-a>"] = { "<Esc>ggVGi", desc = "Select All" },
+                ["<C-s>"] = { "<Esc><cmd>w!<cr>", desc = "Force write" }
         },
         n = {
-            ["<F7>"] = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>" },
-            ["<F8>"] = {
+                ["<F7>"] = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>" },
+                ["<F8>"] = {
                 "<cmd>:AerialToggle<cr>",
                 desc = "Toggle Symbols Outline"
             },
             -- open config file
-            ["<leader>v"] = { name = "CoderVim" },
-            ["<leader>vc"] = {
+                ["<leader>v"] = { name = "CoderVim" },
+                ["<leader>vc"] = {
                 "<cmd>:e /home/coder2195/.config/nvim/lua/user/init.lua<cr>",
                 desc = "Open CoderVim Config"
             },
-            ["<leader>s"] = {
+                ["<leader>s"] = {
                 "<cmd>:AerialToggle<cr>",
                 desc = "Toggle Symbols Outline"
             },
-            ["<S-Tab>"] = { "<Esc><cmd>bnext<cr>", desc = "Next Buffer" },
-            ["<C-a>"] = { "ggVG", desc = "Select All" },
+                ["<S-Tab>"] = { "<Esc><cmd>bnext<cr>", desc = "Next Buffer" },
+                ["<C-a>"] = { "ggVG", desc = "Select All" },
             -- second key is the lefthand side of the map
             -- mappings seen under group name "Buffer"
-            ["<leader>bb"] = { "<cmd>tabnew<cr>", desc = "New tab" },
-            ["<leader>bc"] = {
+                ["<leader>bb"] = { "<cmd>tabnew<cr>", desc = "New tab" },
+                ["<leader>bc"] = {
                 "<cmd>BufferLinePickClose<cr>",
                 desc = "Pick to close"
             },
-            ["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick to jump" },
-            ["<leader>bt"] = {
+                ["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick to jump" },
+                ["<leader>bt"] = {
                 "<cmd>BufferLineSortByTabs<cr>",
                 desc = "Sort by tabs"
             },
             -- tables with the `name` key will be registered with which-key if it's installed
             -- this is useful for naming menus
-            ["<leader>b"] = { name = "Buffers" },
-            ["<leader>T"] = { name = "Telescope" },
-            ["<leader>Tc"] = {
+                ["<leader>b"] = { name = "Buffers" },
+                ["<leader>T"] = { name = "Telescope" },
+                ["<leader>Tc"] = {
                 "<cmd>Telescope colorscheme<cr>",
                 desc = "Set colorscheme"
             },
-            ["<leader>Tp"] = {
+                ["<leader>Tp"] = {
                 "<cmd>Telescope projects<cr>",
                 desc = "Open project"
+            },
+                ["<leader>vu"] = {
+                "<cmd>:Lazy update<cr>",
+                desc = "Update plugins"
             }
             -- quick save
             -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
         },
         t = {
             -- setting a mapping to false will disable it
-            ["<Esc>"] = { "<C-\\><C-n>", desc = "Terminal Escape" }
+                ["<Esc>"] = { "<C-\\><C-n>", desc = "Terminal Escape" }
         }
     },
     -- Configure require("lazy").setup() options
@@ -304,7 +308,7 @@ local config = {
                     button("LDR T p", "  Projects  "),
                     button("LDR v c", "  Edit Config  "),
                     button("LDR S l", "  Last Session  "),
-                    button("LDR S l", "  Update  "),
+                    button("LDR v u", "  Update  "),
 
                     button("LDR q", "  Quit Neovim")
                 }
@@ -363,7 +367,7 @@ local config = {
         opts = {},
         config = function()
             require("transparent").setup({
-                enable = true, -- boolean: enable transparent
+                enable = true,   -- boolean: enable transparent
                 extra_groups = { -- table/string: additional groups that should be cleared
                     -- In particular, when you set it to 'all', that means all available groups
 
@@ -425,7 +429,8 @@ local config = {
             }
         }
     }, { "rcarriga/nvim-notify", opts = { background_colour = "#1f2335" } },
-        { -- override nvim-cmp plugin
+        {
+            -- override nvim-cmp plugin
             "hrsh7th/nvim-cmp",
             -- override the options table that is used in the `require("cmp").setup()` call
             opts = function(_, opts)
@@ -629,7 +634,7 @@ local config = {
             rt.setup({
                 server = {
                     settings = {
-                        ['rust-analyzer'] = {
+                            ['rust-analyzer'] = {
                             checkOnSave = {
                                 allFeatures = true,
                                 overrideCommand = {
