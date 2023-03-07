@@ -24,7 +24,7 @@ local config = {
         -- },
     },
     -- Set colorscheme to use
-    colorscheme = "tokyonight",
+    colorscheme = "everforest",
     -- Add highlight groups in any theme
     highlights = {
         -- init = { -- this table overrides highlights in all themes
@@ -188,10 +188,7 @@ local config = {
                 "<cmd>Telescope projects<cr>",
                 desc = "Open project"
             },
-                ["<leader>vu"] = {
-                "<cmd>:Lazy update<cr>",
-                desc = "Update plugins"
-            }
+                ["<leader>vu"] = { "<cmd>:Lazy update<cr>", desc = "Update plugins" }
             -- quick save
             -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
         },
@@ -329,14 +326,14 @@ local config = {
                 -- null_ls.builtins.formatting.stylua,
                 -- null_ls.builtins.formatting.prettier,
             }
-            return config -- return final config table
+            return config     -- return final config table
         end
     }, {
         "nvim-treesitter/nvim-treesitter",
         opts = {
             -- ensure_installed = { "lua" },
         }
-    }, -- use mason-lspconfig to configure LSP installations
+    },     -- use mason-lspconfig to configure LSP installations
         {
             "williamboman/mason-lspconfig.nvim",
             -- overrides `require("mason-lspconfig").setup(...)`
@@ -357,18 +354,14 @@ local config = {
         opts = {
             -- ensure_installed = { "python" },
         }
-    }, {
-        "wakatime/vim-wakatime",
-        init = function()
-            table.insert(astronvim.file_plugins, "vim-wakatime")
-        end
-    }, { "xiyaowong/nvim-transparent", opts = {} }, {
-        "folke/tokyonight.nvim",
+    }, { "wakatime/vim-wakatime", lazy = false }, {
+        "xiyaowong/nvim-transparent",
         opts = {},
+        lazy = false,
         config = function()
             require("transparent").setup({
-                enable = true,   -- boolean: enable transparent
-                extra_groups = { -- table/string: additional groups that should be cleared
+                enable = true,       -- boolean: enable transparent
+                extra_groups = {     -- table/string: additional groups that should be cleared
                     -- In particular, when you set it to 'all', that means all available groups
 
                     -- example of akinsho/nvim-bufferline.lua
@@ -376,7 +369,7 @@ local config = {
                     "BufferLineFill", "BufferLineBackground",
                     "BufferLineSeparator", "BufferLineIndicatorSelected"
                 },
-                exclude = {} -- table: groups you don't want to clear
+                exclude = {}     -- table: groups you don't want to clear
             })
         end
     }, {
@@ -388,9 +381,9 @@ local config = {
             wilder.setup({ modes = { ':', '/', '?' } })
         end,
         lazy = false
-    }, { "roxma/nvim-yarp",         opts = {} },
-        { "roxma/vim-hug-neovim-rpc",   opts = {} },
-        { "andweeb/presence.nvim",      opts = {}, event = "VeryLazy" }, {
+    }, { "roxma/nvim-yarp",       opts = {} },
+        { "roxma/vim-hug-neovim-rpc", opts = {} },
+        { "andweeb/presence.nvim",    opts = {},   event = "VeryLazy" }, {
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",
         event = "InsertEnter",
@@ -422,42 +415,41 @@ local config = {
         opts = {
             filesystem = {
                 filtered_items = {
-                    visible = true, -- This is what you want: If you set this to `true`, all "hide" just mean "dimmed out"
+                    visible = true,     -- This is what you want: If you set this to `true`, all "hide" just mean "dimmed out"
                     hide_dotfiles = false,
                     hide_gitignored = true
                 }
             }
         }
-    }, { "rcarriga/nvim-notify", opts = { background_colour = "#1f2335" } },
-        {
-            -- override nvim-cmp plugin
-            "hrsh7th/nvim-cmp",
-            -- override the options table that is used in the `require("cmp").setup()` call
-            opts = function(_, opts)
-                -- opts parameter is the default options table
-                -- the function is lazy loaded so cmp is able to be required
-                local cmp = require "cmp"
-                -- modify the mapping part of the table
-                opts.mapping["<Tab>"] = cmp.mapping(function(fallback)
-                    if require("copilot.suggestion").is_visible() then
-                        require("copilot.suggestion").accept()
-                    elseif cmp.visible() then
-                        cmp.select_next_item({
-                            behavior = cmp.SelectBehavior.Insert
-                        })
-                    elseif (not luasnip == nil) and luasnip.expandable() then
-                        luasnip.expand()
-                    elseif (not has_words_before == nil) and has_words_before() then
-                        cmp.complete()
-                    else
-                        fallback()
-                    end
-                end, { "i", "s" })
+    }, { "rcarriga/nvim-notify", opts = { background_colour = "#1f2335" } }, {
+        -- override nvim-cmp plugin
+        "hrsh7th/nvim-cmp",
+        -- override the options table that is used in the `require("cmp").setup()` call
+        opts = function(_, opts)
+            -- opts parameter is the default options table
+            -- the function is lazy loaded so cmp is able to be required
+            local cmp = require "cmp"
+            -- modify the mapping part of the table
+            opts.mapping["<Tab>"] = cmp.mapping(function(fallback)
+                if require("copilot.suggestion").is_visible() then
+                    require("copilot.suggestion").accept()
+                elseif cmp.visible() then
+                    cmp.select_next_item({
+                        behavior = cmp.SelectBehavior.Insert
+                    })
+                elseif (not luasnip == nil) and luasnip.expandable() then
+                    luasnip.expand()
+                elseif (not has_words_before == nil) and has_words_before() then
+                    cmp.complete()
+                else
+                    fallback()
+                end
+            end, { "i", "s" })
 
-                -- return the new table to be used
-                return opts
-            end
-        }, {
+            -- return the new table to be used
+            return opts
+        end
+    }, {
         "rebelot/heirline.nvim",
         opts = function(_, opts)
             local utils = require("astronvim.utils")
@@ -567,7 +559,7 @@ local config = {
                 },
                 -- the final component of the NvChad statusline is the navigation section
                 -- this is very similar to the previous current working directory section with the icon
-                { -- make nav section with icon border
+                {     -- make nav section with icon border
                     -- define a custom component with just a file icon
                     status.component.builder {
                         { provider = utils.get_icon "ScrollText" },
@@ -679,9 +671,22 @@ local config = {
 
             local ccc = require("ccc")
             local mapping = ccc.mapping
-            ccc.setup({ highlighter = { auto_enable = true } })
+            ccc.setup({
+                highlighter = {
+                    auto_enable = true,
+                    filetypes = {
+                        "c", "cpp", "rust", "go", "python", "lua",
+                        "javascript", "typescript", "typescriptreact",
+                        "javascriptreact"
+                    }
+                }
+            })
         end
-    }
+    }, {
+        "AstroNvim/astrocommunity",
+        { import = "astrocommunity.colorscheme.everforest", enabled = true }
+        -- ... import any community contributed plugins here
+    }, { "lewis6991/gitsigns.nvim", opts = { debug_mode = true } }
     },
     -- Customize Heirline options
     heirline = {
@@ -750,7 +755,6 @@ local config = {
         ]]
         vim.schedule(function()
             vim.cmd [[
-            TransparentEnable
             call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_border_theme({
             \ 'highlights': {
             \   'border': 'Normal',
@@ -758,7 +762,6 @@ local config = {
             \ 'border': 'rounded',
             \ })))
             call wilder#setup({'modes': [':', '/', '?']})
-
             ]]
         end)
     end
