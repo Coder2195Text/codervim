@@ -9,7 +9,7 @@ local config = {
     -- Configure AstroNvim updates
     updater = {
         remote = "origin",     -- remote to use
-        channel = "stable",    -- "stable" or "nightly"
+        channel = "nightly",   -- "stable" or "nightly"
         version = "latest",    -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
         branch = "main",       -- branch name (NIGHTLY ONLY)
         commit = nil,          -- commit hash (NIGHTLY ONLY)
@@ -360,7 +360,14 @@ local config = {
         lazy = false,
         config = function()
             require("transparent").setup({
-                enable = true,       -- boolean: enable transparent
+                groups = {     -- table: default groups
+                    'Normal', 'NormalNC', 'Comment', 'Constant', 'Special',
+                    'Identifier', 'Statement', 'PreProc', 'Type',
+                    'Underlined', 'Todo', 'String', 'Function',
+                    'Conditional', 'Repeat', 'Operator', 'Structure',
+                    'LineNr', 'NonText', 'SignColumn', 'CursorLineNr',
+                    'EndOfBuffer'
+                },
                 extra_groups = {     -- table/string: additional groups that should be cleared
                     -- In particular, when you set it to 'all', that means all available groups
 
@@ -368,8 +375,7 @@ local config = {
                     "BufferLineTabClose", "BufferlineBufferSelected",
                     "BufferLineFill", "BufferLineBackground",
                     "BufferLineSeparator", "BufferLineIndicatorSelected"
-                },
-                exclude = {}     -- table: groups you don't want to clear
+                }     -- table: groups you don't want to clear
             })
         end
     }, {
@@ -634,7 +640,8 @@ local config = {
                                     '--message-format=json',
                                     '--all-targets', '--all-features'
                                 }
-                            }
+                            },
+                            cargo = { buildScripts = { enable = true } }
                         }
                     },
                     on_attach = function(_, bufnr)
@@ -686,7 +693,8 @@ local config = {
         "AstroNvim/astrocommunity",
         { import = "astrocommunity.colorscheme.everforest", enabled = true }
         -- ... import any community contributed plugins here
-    }, { "lewis6991/gitsigns.nvim", opts = { debug_mode = true } }
+    }, { "lewis6991/gitsigns.nvim", opts = { debug_mode = true } },
+        { "zyedidia/vim-snake",      event = "VeryLazy" }
     },
     -- Customize Heirline options
     heirline = {
@@ -750,8 +758,13 @@ local config = {
         --   },
         -- }
         --
+        vim.g.transparent_enabled = true
         vim.cmd [[
         set guicursor+=i:blinkon1
+        nnoremap x "_x
+        nnoremap d "_d
+        nnoremap D "_D
+        vnoremap d "_d
         ]]
         vim.schedule(function()
             vim.cmd [[
