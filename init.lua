@@ -694,7 +694,11 @@ local config = {
         { import = "astrocommunity.colorscheme.everforest", enabled = true }
         -- ... import any community contributed plugins here
     }, { "lewis6991/gitsigns.nvim", opts = { debug_mode = true } },
-        { "zyedidia/vim-snake",      event = "VeryLazy" }
+        { "zyedidia/vim-snake",      event = "VeryLazy" }, {
+        "jose-elias-alvarez/typescript.nvim",
+        event = "VeryLazy",
+        config = function() require("typescript").setup({}) end
+    }
     },
     -- Customize Heirline options
     heirline = {
